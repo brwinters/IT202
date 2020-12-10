@@ -80,10 +80,10 @@ if (isset($_POST["saved"])) {
 
             $params = array(":id" => get_user_id());
             $r = $stmt->execute($params);
-            if($r) {
+            if ($r) {
                 $result = $stmt->fetch(PDO::FETCH_ASSOC);
                 $_current = $result["password"];
-                if(password_verify($current, $_current)) {
+                if (password_verify($current, $_current)) {
                     if ($_POST["password"] == $_POST["confirm"]) {
                         $password = $_POST["password"];
                         $hash = password_hash($password, PASSWORD_BCRYPT);
@@ -98,14 +98,19 @@ if (isset($_POST["saved"])) {
                         }
                     }
                 }
-                else{
+                else {
                     flash("Invalid current password, please try again", "danger");
                 }
             }
         }
 //fetch/select fresh data in case anything changed
         $stmt = $db->prepare("SELECT email, username from Users WHERE id = :id LIMIT 1");
-        $stmt->execute([":id" => get_user_id()]);
+
+        $id = extract("id", $_GET);
+        if (!isset($id)) {
+            $id = get_user_id();
+        }
+        $stmt->execute([":id" => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             $email = $result["email"];
