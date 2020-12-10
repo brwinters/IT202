@@ -110,7 +110,7 @@ if (isset($_POST["saved"])) {
         if (!isset($id)) {
             $id = get_user_id();
         }
-        $stmt->execute([":id" => $id]);
+        $stmt->executeData([":id" => $id]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($result) {
             $email = $result["email"];
