@@ -155,7 +155,7 @@ function paginate($query, $params = [], $per_page = 10) {
     $offset = ($page - 1) * $per_page;
 }
 
-function extract($key, $arr = $_POST) {
+function extract($key, $arr) {
     if (isset($arr[$key])) {
         $output = $arr[$key];
         $_SESSION[$key] = $output;
